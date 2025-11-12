@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/login"></ion-back-button>
     </ion-buttons>
@@ -91,10 +91,9 @@
 
         <ion-button
           expand="block"
-          color="primary"
           type="submit"
           [disabled]="form.invalid || isLoading"
-          class="ion-margin-top"
+          class="register ion-margin-top"
         >
           <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
           Crear Cuenta

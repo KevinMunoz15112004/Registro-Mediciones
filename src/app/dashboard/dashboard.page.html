@@ -1,9 +1,9 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar>
         <ion-title>Dashboard</ion-title>
-        <ion-button slot="end" fill="clear" (click)="logout()">
-            <ion-icon name="log-out" color="light">S</ion-icon>
-            <p style="color: white;">Salir</p>
+        <ion-button slot="end" fill="clear" (click)="logout()" class="logout-btn">
+            <ion-icon name="log-out" color="dark"></ion-icon>
+            <p style="color: black;">Salir</p>
         </ion-button>
     </ion-toolbar>
 </ion-header>
@@ -12,7 +12,7 @@
     <ion-card class="ion-margin-bottom" *ngIf="currentUser">
         <ion-card-content>
             <ion-text>
-                <p><strong>Bienvenido:</strong> {{ currentUser.displayName }}</p>
+                <p><strong>Usuario:</strong> {{ currentUser.displayName }}</p>
                 <p><strong>Correo:</strong> {{ currentUser.email }}</p>
                 <p><strong>Rol:</strong> {{ currentUser.role === 'admin' ? 'Administrador' : 'Medidor' }}</p>
             </ion-text>
@@ -30,7 +30,7 @@
             <ion-card-header>
                 <div class="header-row">
                     <ion-card-title>Lectura del {{ formatDate(reading.createdAt) }}</ion-card-title>
-                    <ion-button id="more-{{ reading.id }}" fill="clear" class="more-btn" color="dark">
+                    <ion-button id="more-{{ reading.id }}" fill="clear" class="more-btn">
                         <ion-icon name="ellipsis-vertical"></ion-icon>
                     </ion-button>
                 </div>
@@ -68,11 +68,11 @@
 
     <div class="pagination ion-text-center ion-margin-top" *ngIf="totalPages > 1">
         <ion-button fill="clear" [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">
-            Anterior
+            Atrás
         </ion-button>
 
-        <ion-button *ngFor="let page of [].constructor(totalPages); let i = index" fill="clear"
-            [color]="currentPage === i + 1 ? 'primary' : 'medium'" (click)="setPage(i + 1)">
+        <ion-button class="pages-numbers" *ngFor="let page of [].constructor(totalPages); let i = index" fill="clear"
+            [ngClass]="{ 'page-active': currentPage === i + 1, 'page-inactive': currentPage !== i + 1 }" (click)="setPage(i + 1)">
             {{ i + 1 }}
         </ion-button>
 
@@ -86,7 +86,7 @@
     </div>
 
     <ion-fab *ngIf="!isAdmin" slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button color="primary" (click)="goToNewReading()">
+        <ion-fab-button (click)="goToNewReading()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>Medidor de Agua - Quito</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -8,7 +8,7 @@
   <ion-card class="welcome-card">
     <ion-card-header>
       <ion-card-title>Iniciar Sesión</ion-card-title>
-      <ion-text color="medium" class="ion-text-sm">
+      <ion-text class="ion-text-sm">
         <p>Ingresa tus credenciales para acceder</p>
       </ion-text>
     </ion-card-header>
@@ -40,10 +40,9 @@
 
         <ion-button
           expand="block"
-          color="primary"
           type="submit"
           [disabled]="form.invalid || isLoading"
-          class="ion-margin-top"
+          class="login"
         >
           <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
           Iniciar Sesión
@@ -51,13 +50,12 @@
       </form>
 
       <div class="register-link ion-margin-top ion-text-center">
-        <ion-text color="medium">
+        <ion-text >
           ¿No tienes cuenta?
         </ion-text>
         <ion-button
           fill="clear"
           (click)="goToRegister()"
-          [disabled]="isLoading"
         >
           Crear una aquí
         </ion-button>

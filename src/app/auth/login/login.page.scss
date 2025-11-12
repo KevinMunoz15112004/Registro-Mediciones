@@ -1,20 +1,83 @@
-.welcome-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
+ion-content {
+  --background: linear-gradient(135deg, #1a1b41, #2e236c, #433d8b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
 }
 
-.register-link {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+ion-card.welcome-card {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff10; 
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  color: white;
+  text-align: center;
+  margin: auto;
+}
 
-  ion-button {
-    margin: 0;
-  }
+ion-card-header {
+  padding-bottom: 0;
+}
+
+ion-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+ion-text p {
+  color: #ddd;
+  font-size: 0.9rem;
 }
 
 ion-input {
-  --padding-start: 0;
-  --padding-end: 0;
+  --background: #ffffff20;
+  --color: white;
+  --placeholder-color: #cccccc;
+  --padding-start: 12px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.login{
+  --background: #6f2dbd;
+  --background-activated: #5e23a6;
+  --border-radius: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-weight: 600;
+}
+
+.register-link {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ion-text {
+    font-size: 0.9rem;
+    color: white;
+  }
+
+  ion-button {
+    background-color: #6f2dbd;
+    --color: #ffffff;
+    font-weight: 600;
+    border-radius: 12px;
+  }
+}
+
+ion-header ion-toolbar {
+  --background: #1a1b41;
+  color: white;
+  text-align: center;
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
 }

@@ -1,24 +1,110 @@
-.register-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ion-content {
+--background: linear-gradient(135deg, #1a1b41, #2e236c, #433d8b);
+  min-height: 100vh;
+  padding: 16px;
+  overflow-y: auto;
+  display: block;
+}
+
+ion-card.register-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff10;
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  color: white;
+  text-align: center;
+  margin: 15% auto;
   margin-top: 20px;
 }
 
-.login-link {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+ion-card-header {
+  padding-bottom: 0;
+}
 
-  ion-button {
-    margin: 0;
-  }
+ion-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+ion-text p {
+  color: #ccc;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
 ion-input {
-  --padding-start: 0;
-  --padding-end: 0;
+  --background: #ffffff20;
+  --color: white;
+  --placeholder-color: #cccccc;
+  --padding-start: 12px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+ion-button {
+  --background: #6f2dbd;
+  --background-activated: #5e23a6;
+  --border-radius: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-weight: 600;
 }
 
 ion-segment {
-  width: 100%;
+  --background: #ffffff20;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+ion-segment-button {
+  --color: white;
+  --color-checked: #fff;
+  --indicator-color: #b084f6;
+  font-weight: 500;
+}
+
+ion-segment-button::part(indicator) {
+  border-radius: 8px;
+}
+
+.register {
+  --background: #6f2dbd;
+  --background-activated: #5e23a6;
+  --border-radius: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-weight: 600;
+}
+
+.login-link {
+    margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ion-text {
+    font-size: 0.9rem;
+    color: white;
+  }
+
+  ion-button {
+    background-color: #6f2dbd;
+    --color: #ffffff;
+    font-weight: 600;
+    border-radius: 12px;
+  }
+}
+
+ion-header ion-toolbar {
+  --background: #1a1b41;
+  color: white;
+  text-align: center;
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
 }
