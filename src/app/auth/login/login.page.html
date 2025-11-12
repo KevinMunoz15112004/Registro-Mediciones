@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Medidor de Agua - Quito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title>Iniciar Sesión</ion-card-title>
+      <ion-text color="medium" class="ion-text-sm">
+        <p>Ingresa tus credenciales para acceder</p>
+      </ion-text>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <ion-input
+          formControlName="email"
+          label="Correo Electrónico"
+          labelPlacement="stacked"
+          type="email"
+          placeholder="correo@ejemplo.com"
+          class="ion-margin-bottom"
+        ></ion-input>
+        <ion-text color="danger" *ngIf="email?.invalid && email?.touched">
+          <p class="ion-padding-start">Correo inválido</p>
+        </ion-text>
+
+        <ion-input
+          formControlName="password"
+          label="Contraseña"
+          labelPlacement="stacked"
+          type="password"
+          placeholder="Tu contraseña"
+          class="ion-margin-bottom"
+        ></ion-input>
+        <ion-text color="danger" *ngIf="password?.invalid && password?.touched">
+          <p class="ion-padding-start">La contraseña es requerida</p>
+        </ion-text>
+
+        <ion-button
+          expand="block"
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || isLoading"
+          class="ion-margin-top"
+        >
+          <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+          Iniciar Sesión
+        </ion-button>
+      </form>
+
+      <div class="register-link ion-margin-top ion-text-center">
+        <ion-text color="medium">
+          ¿No tienes cuenta?
+        </ion-text>
+        <ion-button
+          fill="clear"
+          (click)="goToRegister()"
+          [disabled]="isLoading"
+        >
+          Crear una aquí
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

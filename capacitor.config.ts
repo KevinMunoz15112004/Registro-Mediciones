@@ -1,9 +1,20 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'AppDeber',
-  webDir: 'www'
+  appId: 'com.quito.medidor',
+  appName: 'Medidor Quito',
+  webDir: 'www',
+  server: {
+    androidScheme: 'https'
+  },
+  plugins: {
+    Camera: {
+      permissions: ['camera']
+    },
+    Geolocation: {
+      permissions: ['geolocation']
+    }
+  }
 };
 
 export default config;

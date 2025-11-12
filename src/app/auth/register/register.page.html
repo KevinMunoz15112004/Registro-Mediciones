@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="register-card">
+    <ion-card-header>
+      <ion-card-title>Registro de Usuario</ion-card-title>
+      <ion-text color="medium" class="ion-text-sm">
+        <p>Completa el formulario para crear tu cuenta</p>
+      </ion-text>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form" (ngSubmit)="register()">
+        <ion-input
+          formControlName="displayName"
+          label="Nombre Completo"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Tu nombre"
+          class="ion-margin-bottom"
+        ></ion-input>
+        <ion-text color="danger" *ngIf="displayName?.invalid && displayName?.touched">
+          <p class="ion-padding-start">El nombre es requerido</p>
+        </ion-text>
+
+        <ion-input
+          formControlName="email"
+          label="Correo Electrónico"
+          labelPlacement="stacked"
+          type="email"
+          placeholder="correo@ejemplo.com"
+          class="ion-margin-bottom"
+        ></ion-input>
+        <ion-text color="danger" *ngIf="email?.invalid && email?.touched">
+          <p class="ion-padding-start">Correo inválido</p>
+        </ion-text>
+
+        <ion-input
+          formControlName="password"
+          label="Contraseña"
+          labelPlacement="stacked"
+          type="password"
+          placeholder="Mínimo 6 caracteres"
+          class="ion-margin-bottom"
+        ></ion-input>
+        <ion-text color="danger" *ngIf="password?.invalid && password?.touched">
+          <p class="ion-padding-start">La contraseña debe tener al menos 6 caracteres</p>
+        </ion-text>
+
+        <ion-input
+          formControlName="confirmPassword"
+          label="Confirmar Contraseña"
+          labelPlacement="stacked"
+          type="password"
+          placeholder="Repite tu contraseña"
+          class="ion-margin-bottom"
+        ></ion-input>
+        <ion-text color="danger" *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
+          <p class="ion-padding-start">Debe coincidir con la contraseña</p>
+        </ion-text>
+
+        <div class="ion-margin-bottom ion-margin-top">
+          <ion-label><strong>Tipo de Usuario:</strong></ion-label>
+          <ion-text color="medium" class="ion-text-sm">
+            <p>Selecciona tu rol en el sistema</p>
+          </ion-text>
+          <ion-segment [value]="selectedRole" (ionChange)="onRoleChange($event)" class="ion-margin-top">
+            <ion-segment-button value="meter-reader">
+              <ion-label>Medidor</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="admin">
+              <ion-label>Administrador</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <ion-text color="medium" class="ion-text-sm ion-margin-bottom">
+          <p *ngIf="selectedRole === 'meter-reader'">
+            <strong>Medidor:</strong> Puedes registrar nuevas lecturas y ver tus propios registros
+          </p>
+          <p *ngIf="selectedRole === 'admin'">
+            <strong>Administrador:</strong> Puedes ver todas las lecturas del sistema
+          </p>
+        </ion-text>
+
+        <ion-button
+          expand="block"
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || isLoading"
+          class="ion-margin-top"
+        >
+          <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+          Crear Cuenta
+        </ion-button>
+      </form>
+
+      <div class="login-link ion-margin-top ion-text-center">
+        <ion-text color="medium">
+          ¿Ya tienes cuenta?
+        </ion-text>
+        <ion-button
+          fill="clear"
+          (click)="goToLogin()"
+          [disabled]="isLoading"
+        >
+          Inicia Sesión
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

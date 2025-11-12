@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalles de Lectura</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="reading">
+  <!-- Información General -->
+  <ion-card class="ion-margin-bottom">
+    <ion-card-header>
+      <ion-card-title>Información General</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>
+        <p><strong>Fecha de Lectura:</strong> {{ formatDate(reading.createdAt) }}</p>
+        <p><strong>Valor del Medidor:</strong> {{ reading.meterValue }} m³</p>
+        <p *ngIf="reading.userName"><strong>Medidor:</strong> {{ reading.userName }}</p>
+        <p *ngIf="reading.userEmail"><strong>Correo:</strong> {{ reading.userEmail }}</p>
+        <p *ngIf="reading.zone"><strong>Zona:</strong> {{ reading.zone }}</p>
+        <p *ngIf="reading.observations"><strong>Observaciones:</strong> {{ reading.observations }}</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Información de Ubicación -->
+  <ion-card class="ion-margin-bottom">
+    <ion-card-header>
+      <ion-card-title>Ubicación GPS</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>
+        <p><strong>Latitud:</strong> {{ reading.latitude }}</p>
+        <p><strong>Longitud:</strong> {{ reading.longitude }}</p>
+      </ion-text>
+      <ion-button expand="block" color="primary" (click)="openMapsLink()" class="ion-margin-top">
+        <ion-icon slot="start" name="open"></ion-icon>
+        Ver en Google Maps
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Fotografía del Medidor -->
+  <ion-card class="ion-margin-bottom" *ngIf="reading.meterPhotoUrl">
+    <ion-card-header>
+      <ion-card-title>Fotografía del Medidor</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-img [src]="reading.meterPhotoUrl" style="max-height: 400px; object-fit: contain;"></ion-img>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Fotografía de la Fachada -->
+  <ion-card class="ion-margin-bottom" *ngIf="reading.facadePhotoUrl">
+    <ion-card-header>
+      <ion-card-title>Fotografía de la Fachada</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-img [src]="reading.facadePhotoUrl" style="max-height: 400px; object-fit: contain;"></ion-img>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,88 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>Dashboard</ion-title>
+        <ion-button slot="end" fill="clear" (click)="logout()">
+            <ion-icon name="log-out" color="light">S</ion-icon>
+            <p style="color: white;">Salir</p>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <!-- Información del Usuario -->
+    <ion-card class="ion-margin-bottom" *ngIf="currentUser">
+        <ion-card-content>
+            <ion-text>
+                <p><strong>Bienvenido:</strong> {{ currentUser.displayName }}</p>
+                <p><strong>Correo:</strong> {{ currentUser.email }}</p>
+                <p><strong>Rol:</strong> {{ currentUser.role === 'admin' ? 'Administrador' : 'Medidor' }}</p>
+            </ion-text>
+        </ion-card-content>
+    </ion-card>
+
+    <!-- Mensaje si no hay lecturas -->
+    <div *ngIf="!isLoading && readings.length === 0" class="ion-text-center ion-padding">
+        <ion-text color="medium">
+            <p>No hay lecturas registradas</p>
+        </ion-text>
+    </div>
+
+    <!-- Lista de Lecturas -->
+    <div *ngIf="!isLoading && readings.length > 0">
+        <ion-card *ngFor="let reading of readings" class="reading-card ion-margin-bottom">
+            <ion-card-header>
+                <ion-card-title>Lectura del {{ formatDate(reading.createdAt) }}</ion-card-title>
+                <ion-text color="medium" class="ion-text-sm">
+                    <p *ngIf="isAdmin">Medidor: {{ reading.userName }} ({{ reading.userEmail }})</p>
+                    <p *ngIf="reading.zone">Zona: {{ reading.zone }}</p>
+                </ion-text>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-text>
+                    <p><strong>Valor del Medidor:</strong> {{ reading.meterValue }} m³</p>
+                    <p *ngIf="reading.observations"><strong>Observaciones:</strong> {{ reading.observations }}</p>
+                    <p><strong>Ubicación:</strong> {{ reading.latitude }}, {{ reading.longitude }}</p>
+                </ion-text>
+
+                <!-- Vista previa de fotos -->
+                <div class="photos-container ion-margin-top">
+                    <div class="photo-item" *ngIf="reading.meterPhotoUrl">
+                        <img [src]="reading.meterPhotoUrl" alt="Foto del medidor"
+                            style="max-width: 100%; max-height: 150px; border-radius: 4px;">
+                        <p class="photo-label">Medidor</p>
+                    </div>
+                    <div class="photo-item" *ngIf="reading.facadePhotoUrl">
+                        <img [src]="reading.facadePhotoUrl" alt="Foto de la fachada"
+                            style="max-width: 100%; max-height: 150px; border-radius: 4px;">
+                        <p class="photo-label">Fachada</p>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="action-buttons ion-margin-top">
+                    <ion-button expand="block" fill="outline" (click)="viewReading(reading)">
+                        <ion-icon slot="start" name="eye"></ion-icon>
+                        Ver Detalles
+                    </ion-button>
+                    <ion-button *ngIf="!isAdmin" expand="block" fill="outline" color="danger"
+                        (click)="deleteReading(reading.id)">
+                        <ion-icon slot="start" name="trash"></ion-icon>
+                        Eliminar
+                    </ion-button>
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </div>
+
+    <!-- Spinner de carga -->
+    <div *ngIf="isLoading" class="ion-text-center ion-padding">
+        <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <!-- FAB para nueva lectura (solo para medidores) -->
+    <ion-fab *ngIf="!isAdmin" slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button color="primary" (click)="goToNewReading()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>
