@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content class="ion-padding" *ngIf="reading">
-  <!-- Información General -->
   <ion-card class="ion-margin-bottom">
     <ion-card-header>
       <ion-card-title>Información General</ion-card-title>
@@ -25,7 +24,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Información de Ubicación -->
   <ion-card class="ion-margin-bottom">
     <ion-card-header>
       <ion-card-title>Ubicación GPS</ion-card-title>
@@ -42,7 +40,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Fotografía del Medidor -->
   <ion-card class="ion-margin-bottom" *ngIf="reading.meterPhotoUrl">
     <ion-card-header>
       <ion-card-title>Fotografía del Medidor</ion-card-title>
@@ -52,7 +49,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Fotografía de la Fachada -->
   <ion-card class="ion-margin-bottom" *ngIf="reading.facadePhotoUrl">
     <ion-card-header>
       <ion-card-title>Fotografía de la Fachada</ion-card-title>

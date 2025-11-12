@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonHeader, IonToolbar, IonTitle, IonSpinner, IonIcon, IonFab, IonFabButton, IonText, ToastController, LoadingController, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonHeader, IonToolbar, IonTitle, IonSpinner, IonIcon, IonFab, IonFabButton, IonText, ToastController, LoadingController, AlertController, IonPopover, IonItem, IonList } from '@ionic/angular/standalone';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ReadingService } from '../services/reading.service';
 import { addIcons } from 'ionicons';
-import { add, logOut, trash, eye } from 'ionicons/icons';
+import { add, logOut, trash, eye, ellipsisVertical } from 'ionicons/icons';
 import { Reading, User } from '../models/reading.model';
 import { Subscription } from 'rxjs';
 
-addIcons({ add, logOut, trash, eye });
+addIcons({ add, logOut, trash, eye, ellipsisVertical });
 
 @Component({
   selector: 'app-dashboard',
@@ -32,18 +32,27 @@ addIcons({ add, logOut, trash, eye });
     IonIcon,
     IonFab,
     IonFabButton,
-    IonText
+    IonText,
+    IonPopover,
+    IonItem,
+    IonList
   ],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit, OnDestroy {
   readings: Reading[] = [];
+  paginatedReadings: Reading[] = [];
+  currentPage = 1;
+  itemsPerPage = 4;
+  totalPages = 1;
   isLoading = false;
   currentUser: User | null = null;
   isAdmin = false;
   private readingsSubscription: Subscription | null = null;
   private userSubscription: Subscription | null = null;
+
+  @ViewChild(IonContent) content!: IonContent;
 
   constructor(
     private authService: AuthService,
@@ -76,14 +85,12 @@ export class DashboardPage implements OnInit, OnDestroy {
   }
 
   private subscribeToReadings(userId: string) {
-    // Desuscribirse de la suscripción anterior si existe
     if (this.readingsSubscription) {
       this.readingsSubscription.unsubscribe();
     }
 
-    // Suscribirse a los cambios en tiempo real
-    this.readingsSubscription = (this.isAdmin 
-      ? this.readingService.getAllReadings() 
+    this.readingsSubscription = (this.isAdmin
+      ? this.readingService.getAllReadings()
       : this.readingService.getMyReadings(userId)
     ).subscribe({
       next: (readings) => {
@@ -92,6 +99,8 @@ export class DashboardPage implements OnInit, OnDestroy {
           const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
           return dateB.getTime() - dateA.getTime();
         });
+        this.totalPages = Math.ceil(this.readings.length / this.itemsPerPage);
+        this.setPage(1);
         this.isLoading = false;
       },
       error: (error) => {
@@ -140,7 +149,6 @@ export class DashboardPage implements OnInit, OnDestroy {
               await this.readingService.deleteReading(readingId);
               this.showToast('Lectura eliminada exitosamente', 'success');
               await loader.dismiss();
-              // La suscripción en tiempo real actualizará automáticamente
             } catch (error) {
               console.error('Error deleting reading:', error);
               this.showToast('Error al eliminar la lectura', 'danger');
@@ -178,6 +186,18 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   goToNewReading() {
     this.router.navigate(['/new-reading']);
+  }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    const startIndex = (page - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedReadings = this.readings.slice(startIndex, endIndex);
+
+    setTimeout(() => {
+      this.content.scrollToTop(400);
+    }, 100);
   }
 
   private async showToast(message: string, color: string) {

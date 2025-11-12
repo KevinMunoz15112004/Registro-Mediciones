@@ -52,12 +52,28 @@ export class ReadingService {
   getMyReadings(userId: string): Observable<Reading[]> {
     const readingsRef = collection(this.firestore, 'readings');
     const q = query(readingsRef, where('userId', '==', userId));
-    return collectionData(q, { idField: 'id' }) as Observable<Reading[]>;
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((readings: any[]) =>
+        readings.map(r => ({
+          ...r,
+          createdAt: r.createdAt?.toDate ? r.createdAt.toDate() : r.createdAt,
+          updatedAt: r.updatedAt?.toDate ? r.updatedAt.toDate() : r.updatedAt
+        }))
+      )
+    );
   }
 
   getAllReadings(): Observable<Reading[]> {
     const readingsRef = collection(this.firestore, 'readings');
-    return collectionData(readingsRef, { idField: 'id' }) as Observable<Reading[]>;
+    return collectionData(readingsRef, { idField: 'id' }).pipe(
+      map((readings: any[]) =>
+        readings.map(r => ({
+          ...r,
+          createdAt: r.createdAt?.toDate ? r.createdAt.toDate() : r.createdAt,
+          updatedAt: r.updatedAt?.toDate ? r.updatedAt.toDate() : r.updatedAt
+        }))
+      )
+    );
   }
 
   async getReadingById(readingId: string): Promise<Reading | null> {
@@ -65,7 +81,13 @@ export class ReadingService {
       const readingRef = doc(this.firestore, 'readings', readingId);
       const docSnap = await getDoc(readingRef);
       if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() } as Reading;
+        const data = docSnap.data() as any;
+        return {
+          id: docSnap.id,
+          ...data,
+          createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
+          updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt
+        } as Reading;
       }
       return null;
     } catch (error) {

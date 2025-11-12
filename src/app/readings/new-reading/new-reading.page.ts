@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonButton, IonInput, IonText, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonHeader, IonToolbar, IonTitle, IonSpinner, IonImg, IonIcon, ToastController, LoadingController } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonInput, IonText, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonHeader, IonToolbar, IonTitle, IonSpinner, IonImg, IonIcon, ToastController, LoadingController, IonBackButton, IonButtons } from '@ionic/angular/standalone';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -33,7 +33,9 @@ addIcons({ camera, location });
     IonTitle,
     IonSpinner,
     IonImg,
-    IonIcon
+    IonIcon,
+    IonBackButton,
+    IonButtons
   ],
   templateUrl: './new-reading.page.html',
   styleUrls: ['./new-reading.page.scss'],
@@ -65,7 +67,7 @@ export class NewReadingPage implements OnInit {
   }
 
   ngOnInit() {
-    this.requestLocationPermission();
+ 
   }
 
   async requestLocationPermission() {
