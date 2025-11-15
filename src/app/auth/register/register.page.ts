@@ -38,6 +38,7 @@ export class RegisterPage implements OnInit {
   form!: FormGroup;
   isLoading = false;
   selectedRole: 'meter-reader' | 'admin' = 'meter-reader';
+  private readonly ADMIN_SECRET_KEY = 'adminABC123_';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,7 +51,8 @@ export class RegisterPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-      displayName: ['', [Validators.required]]
+      displayName: ['', [Validators.required]],
+      adminKey: ['']
     });
   }
 
@@ -61,6 +63,14 @@ export class RegisterPage implements OnInit {
     const value = event.detail.value;
     if (value === 'meter-reader' || value === 'admin') {
       this.selectedRole = value;
+
+      const adminKeyControl = this.form.get('adminKey');
+      if (value === 'admin') {
+        adminKeyControl?.setValidators([Validators.required]);
+      } else {
+        adminKeyControl?.setValidators([]);
+      }
+      adminKeyControl?.updateValueAndValidity();
     }
   }
 
@@ -70,9 +80,14 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    const { password, confirmPassword } = this.form.value;
+    const { password, confirmPassword, adminKey } = this.form.value;
     if (password !== confirmPassword) {
       this.showToast('Las contraseñas no coinciden', 'warning');
+      return;
+    }
+
+    if (this.selectedRole === 'admin' && adminKey !== this.ADMIN_SECRET_KEY) {
+      this.showToast('Clave secreta de administrador incorrecta', 'danger');
       return;
     }
 
@@ -131,5 +146,9 @@ export class RegisterPage implements OnInit {
 
   get displayName() {
     return this.form.get('displayName');
+  }
+
+  get adminKey() {
+    return this.form.get('adminKey');
   }
 }

@@ -80,6 +80,23 @@
           </ion-segment>
         </div>
 
+        <div *ngIf="selectedRole === 'admin'" class="ion-margin-bottom ion-margin-top">
+          <ion-input
+            formControlName="adminKey"
+            label="Clave Secreta de Administrador"
+            labelPlacement="stacked"
+            type="password"
+            placeholder="Ingresa la clave secreta"
+            class="ion-margin-bottom"
+          ></ion-input>
+          <ion-text color="danger" *ngIf="adminKey?.invalid && adminKey?.touched">
+            <p class="ion-padding-start">Clave secreta incorrecta</p>
+          </ion-text>
+          <ion-text color="warning" class="ion-text-sm">
+            <p class="ion-padding-start">Se requiere clave secreta para registrarse como administrador</p>
+          </ion-text>
+        </div>
+
         <ion-text color="medium" class="ion-text-sm ion-margin-bottom">
           <p *ngIf="selectedRole === 'meter-reader'">
             <strong>Medidor:</strong> Puedes registrar nuevas lecturas y ver tus propios registros
